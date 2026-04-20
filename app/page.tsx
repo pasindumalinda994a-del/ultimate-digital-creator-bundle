@@ -2,6 +2,11 @@ import Image from "next/image";
 import { BundleCategoryGrid } from "./components/BundleCategoryGrid";
 import { Heading } from "./components/Heading";
 import { Paragraph } from "./components/Paragraph";
+import {
+  bundleCategories,
+  categoryHeroImageById,
+  type BundleCategory,
+} from "./bundle-data";
 
 const glassButtonPrimary =
   "cta-glow inline-flex items-center justify-center rounded-2xl border border-cyan-300/35 bg-white/10 px-8 py-3.5 text-base font-semibold text-white shadow-lg backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/50 hover:bg-white/15 hover:shadow-[0_0_32px_rgba(34,211,238,0.35)] active:translate-y-0";
@@ -47,6 +52,20 @@ const features = [
     ),
   },
 ];
+
+type BundleCategoryWithHero = BundleCategory & {
+  heroSrc?: string;
+};
+
+const categoriesWithHero: BundleCategoryWithHero[] = bundleCategories.map(
+  (cat) => {
+    const rawHeroSrc = categoryHeroImageById[cat.id];
+    return {
+      ...cat,
+      heroSrc: rawHeroSrc ? encodeURI(rawHeroSrc) : undefined,
+    };
+  }
+);
 
 export default function Home() {
   return (
@@ -100,7 +119,7 @@ export default function Home() {
               Explore curated Google Drive folders. Open a category or jump straight to the main folder.
             </Paragraph>
           </div>
-          <BundleCategoryGrid />
+          <BundleCategoryGrid categories={categoriesWithHero} />
         </section>
 
         <section
@@ -164,14 +183,6 @@ export default function Home() {
           className="mx-auto mb-4 h-auto w-[min(56vw,220px)] opacity-90 sm:w-[min(38vw,260px)]"
         />
         <Paragraph>© {new Date().getFullYear()} Ultimate Digital Creator Bundle. All rights reserved.</Paragraph>
-        <Paragraph className="mt-2">
-          <a
-            href="mailto:support@example.com"
-            className="text-slate-400 underline decoration-white/20 underline-offset-4 transition hover:text-cyan-200/90"
-          >
-            support@example.com
-          </a>
-        </Paragraph>
       </footer>
     </div>
   );

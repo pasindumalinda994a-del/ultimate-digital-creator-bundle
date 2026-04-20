@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { BundleCategory } from "../bundle-data";
-import { bundleCategories, categoryHeroImageById } from "../bundle-data";
 import { Heading } from "./Heading";
 import { Paragraph } from "./Paragraph";
 
@@ -16,22 +15,21 @@ const glassButton =
   "inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-white shadow-lg backdrop-blur-md transition duration-300 hover:border-cyan-300/40 hover:bg-white/15 hover:shadow-[0_0_24px_rgba(34,211,238,0.25)] active:translate-y-0";
 
 type BundleCategoryGridProps = {
-  categories?: BundleCategory[];
+  categories: BundleCategoryWithHero[];
+};
+
+type BundleCategoryWithHero = BundleCategory & {
+  heroSrc?: string;
 };
 
 function linkCountFor(cat: BundleCategory) {
   return cat.sections.reduce((n, s) => n + s.links.length, 0);
 }
 
-function heroSrcForCategory(cat: BundleCategory): string | undefined {
-  const raw = categoryHeroImageById[cat.id];
-  return raw ? encodeURI(raw) : undefined;
-}
-
 export function BundleCategoryGrid({
-  categories = bundleCategories,
+  categories,
 }: BundleCategoryGridProps) {
-  const [selected, setSelected] = useState<BundleCategory | null>(null);
+  const [selected, setSelected] = useState<BundleCategoryWithHero | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
@@ -57,7 +55,7 @@ export function BundleCategoryGrid({
     dialogRef.current?.close();
   }
 
-  function openDetails(cat: BundleCategory, trigger: HTMLElement | null) {
+  function openDetails(cat: BundleCategoryWithHero, trigger: HTMLElement | null) {
     triggerRef.current = trigger;
     setSelected(cat);
   }
@@ -66,15 +64,13 @@ export function BundleCategoryGrid({
     if (e.target === dialogRef.current) closeDialog();
   }
 
-  const selectedHeroSrc = selected
-    ? heroSrcForCategory(selected)
-    : undefined;
+  const selectedHeroSrc = selected?.heroSrc;
 
   return (
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {categories.map((cat) => {
-          const heroSrc = heroSrcForCategory(cat);
+          const heroSrc = cat.heroSrc;
           return (
             <article
               key={cat.id}
