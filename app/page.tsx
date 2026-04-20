@@ -156,6 +156,13 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-white/10 bg-slate-950/80 py-8 text-center text-sm text-slate-500 backdrop-blur-md">
+        <Image
+          src="/images/bg%20remove%20logo.png"
+          alt="Emingo Digital logo"
+          width={1024}
+          height={342}
+          className="mx-auto mb-4 h-auto w-[min(56vw,220px)] opacity-90 sm:w-[min(38vw,260px)]"
+        />
         <Paragraph>© {new Date().getFullYear()} Ultimate Digital Creator Bundle. All rights reserved.</Paragraph>
         <Paragraph className="mt-2">
           <a
