@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BundleCategoryGrid } from "./components/BundleCategoryGrid";
 import { Heading } from "./components/Heading";
 import { Paragraph } from "./components/Paragraph";
@@ -58,9 +59,14 @@ export default function Home() {
 
       <main className="mx-auto flex w-full max-w-6xl flex-col px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
         <header className="flex flex-col items-center text-center">
-          <Paragraph className="mb-4 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-medium uppercase tracking-widest text-cyan-200/90 backdrop-blur-md">
-            Digital creator bundle
-          </Paragraph>
+          <Image
+            src="/images/bg%20remove%20logo.png"
+            alt="Emingo Digital logo"
+            width={1024}
+            height={342}
+            priority
+            className="mb-10 h-auto w-[min(72vw,280px)] drop-shadow-[0_10px_24px_rgba(30,41,59,0.45)] sm:mb-12 sm:w-[min(56vw,340px)]"
+          />
           <Heading
             as="h1"
             className="max-w-4xl text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl lg:leading-[1.08]"
